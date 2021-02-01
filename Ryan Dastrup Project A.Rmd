@@ -1,0 +1,392 @@
+---
+title: "Project A"
+author: "Ryan Dastrup"
+date: "January 31, 2021"
+output: html_notebook
+---
+### Description
+
+This report will examine gun deaths and will examine the reasons of death, gun 
+death by gender, and gun death by race. The data was housed on the website
+Fivethirtyeight, and comes primarily from the Centers for Disease Control and
+Prevention's Multiple cause of Death database. The years we will examine are
+2012 and 2019. 
+
+
+***
+
+### Analysis
+
+First we will examine the proportions of gun death in 2012. The biggest reason
+for gun related causes was associated with suicide and (.62).  
+```{r}
+
+guns<-read.csv("full_data.csv")
+
+```
+
+
+```{r}
+
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(ggplot2)
+library(magrittr)
+
+```
+
+
+```{r}
+
+death2012<-subset(guns, guns$year == "2012")
+
+```
+
+
+```{r}
+
+More_death2012<- death2012 %>%
+  group_by(intent) %>%
+  summarize (freq = n()) %>%
+  mutate (prop = freq/sum(freq))
+death2012 %>%
+  group_by(intent) %>%
+  summarize(freq = n()) %>%
+  mutate (prop = freq/sum(freq))
+
+```
+
+
+```{r}
+
+ggplot(More_death2012, aes (x = intent, y = prop)) +
+  geom_col(fill = "dodgerblue") +
+  labs (x = "",
+        y = "Proportion",
+        title = "Reasons for Death - 2012")
+
+```
+
+
+```{r}
+
+More_death2012 %>%
+  knitr::kable(caption = "Proportions of Gun Death - 2012", 
+               digits = 4) %>%
+  kableExtra::kable_styling(bootstrap_options = "striped")
+
+```
+
+
+
+```{r include=FALSE}
+
+More_gender2012<- death2012 %>%
+  group_by(sex) %>%
+  summarize (freq = n()) %>%
+  mutate (prop = freq/sum(freq))
+death2012 %>%
+  group_by(sex) %>%
+  summarize(freq = n()) %>%
+  mutate (prop = freq/sum(freq))
+
+```
+
+
+```{r}
+
+ggplot(More_gender2012, aes (x = sex, y = prop)) +
+  geom_col(fill = "dodgerblue") +
+  labs (x = "",
+        y = "Proportion",
+        title = "Gun Death by Gender - 2012")
+
+```
+```{r echo=FALSE}
+
+More_gender2012 %>%
+  knitr::kable(caption = "Table 2. Proportions for Gun Death by Gender in 2012", digits = 4) %>%
+  kableExtra::kable_styling(bootstrap_options = "striped")
+
+```
+
+
+We had more deaths by men versus women. Males counted for 86% while women made up the rest (14%). 
+
+```{r include=FALSE}
+
+More_race2012<- death2012 %>%
+  group_by(race) %>%
+  summarize (freq = n()) %>%
+  mutate (prop = freq/sum(freq))
+death2012 %>%
+  group_by(race) %>%
+  summarize(freq = n()) %>%
+  mutate (prop = freq/sum(freq))
+
+```
+
+```{r}
+
+ggplot(More_race2012, aes (x = race, y = prop)) +
+  geom_col(fill = "dodgerblue") +
+  labs (x = "",
+        y = "Proportion",
+        title = "Gun Death by Race - 2012")
+
+```
+
+
+```{r echo=FALSE}
+
+More_race2012 %>%
+  knitr::kable(caption = "Gun Death by Race - 2012", digits = 5) %>%
+  kableExtra::kable_styling(bootstrap_options = "striped")
+
+```
+
+
+Finally, we wanted to look at race related causes. We had five (5) different 
+racial classes. We see gun death among white was more than half at (.65). Among
+the black population we see about (.25) related deaths, with the remaining 
+balance between Asian, Native American and Hispanics.
+
+***
+
+### Conclusion
+To recap the biggest reason for gun death was due to suicide and we see that
+majority of time this occurs with males. Further, the white population is by far
+ahead of any of the other races examined.  
+
+
+***
+
+Next we will look at gun data for 2019, and we will examine the same variables 
+as 2012.
+
+```{r}
+
+death_2019<- read.csv("full_data_19.csv")
+
+```
+
+```{r include=FALSE}
+
+More_death_2019<- death_2019 %>%
+  group_by(intent) %>%
+  summarize (freq = n()) %>%
+  mutate (prop = freq/sum(freq))
+death_2019 %>%
+  group_by(intent) %>%
+  summarize(freq = n()) %>%
+  mutate (prop = freq/sum(freq))
+
+```
+
+```{r echo=FALSE}
+
+ggplot(More_death_2019, aes (x = intent, y = prop)) +
+  geom_col(fill = "dodgerblue") +
+  labs (x = "",
+        y = "Proportion",
+        title = "Reasons for Death - 2019")
+
+```
+
+
+```{r}
+
+More_death_2019 %>%
+  knitr::kable(caption = "Gun Death - 2019", digits = 4) %>%
+  kableExtra::kable_styling(bootstrap_options = "striped")
+
+```
+
+```{r include=FALSE}
+
+More_death_gender2019<- death_2019 %>%
+  group_by(sex) %>%
+  summarize (freq = n()) %>%
+  mutate (prop = freq/sum(freq))
+death_2019 %>%
+  group_by(sex) %>%
+  summarize(freq = n()) %>%
+  mutate (prop = freq/sum(freq))
+
+```
+
+```{r echo=FALSE}
+
+ggplot(More_death_gender2019, aes (x = sex, y = prop)) +
+  geom_col(fill = "dodgerblue") +
+  labs (x = "",
+        y = "Proportion",
+        title = "Gun Death by Gender - 2019")
+```
+
+
+
+```{r include=FALSE}
+
+More_death_race2019<- death_2019 %>%
+  group_by(race) %>%
+  summarize (freq = n()) %>%
+  mutate (prop = freq/sum(freq))
+death_2019 %>%
+  group_by(race) %>%
+  summarize(freq = n()) %>%
+  mutate (prop = freq/sum(freq))
+
+```
+
+
+```{r echo=FALSE}
+
+ggplot(More_death_race2019, aes (x = race, y = prop)) +
+  geom_col(fill = "dodgerblue") +
+  labs (x = "Gun Death by Race - 2019",
+        y = "Proportion",
+        title = "Gun Death by Race - 2019")
+
+```
+
+```{r echo=FALSE}
+
+More_death_race2019 %>%
+  knitr::kable(caption = "Gun Death by Race - 2019", digits = 4) %>%
+  kableExtra::kable_styling(bootstrap_options = "striped")
+
+```
+
+
+```{r}
+
+data_12_19<- rbind(death2012, death_2019)
+#data_12_19<-as_tibble(data_12_19)
+
+```
+
+
+```{r}
+
+data_12_19_counts <- data_12_19 %>%
+  group_by(year, intent) %>%
+  summarize (freq = n(), .groups = 'drop')
+
+data_12_19_IntentProps <- data_12_19_counts %>%
+  group_by(intent) %>%
+  mutate (prop = freq / sum(freq)) %>%
+  ungroup()
+
+```
+
+
+```{r}
+
+ggplot(data_12_19_IntentProps, aes (x = year, y = prop, fill = intent )) + 
+  geom_col(state= "identity") +
+  
+  labs(x = '2012 and 2019', y = 'Proportion', title = "Reason for Death - 2012 and 2019") +
+  scale_fill_discrete (name = 'intent',
+                       labels = c ('Suicide', 'Homocide', 'Accidental', 'Undetermined'))
+```
+
+
+```{r echo=FALSE}
+
+data_12_19_counts <- data_12_19 %>%
+  group_by(year, intent) %>%
+  summarize (freq = n(), .groups = 'drop')
+
+data_12_19_IntentProps <- data_12_19_counts %>%
+  group_by(intent) %>%
+  mutate (prop = freq / sum(freq)) %>%
+  ungroup()
+data_12_19_IntentProps
+
+```
+
+
+```{r include=FALSE}
+
+data_12_19racecounts <- data_12_19 %>%
+  group_by(year, race) %>%
+  summarize (freq = n(), .groups = 'drop')
+
+data_12_19raceProps <- data_12_19racecounts %>%
+  group_by(race) %>%
+  mutate (prop = freq / sum(freq)) %>%
+  ungroup()
+
+data_12_19racecounts %>%
+  knitr::kable(caption = "Gun Death by Race - 2019") %>%
+  kableExtra::kable_styling(bootstrap_options = "striped")
+
+```
+
+
+```{r}
+ggplot(data_12_19raceProps, aes (x = year, y = prop, fill = race )) +
+  geom_col()+
+  labs(x = '2012 and 2019', y = 'Proportion', title = "Gun Death by Race - 2012 and 2019") +
+  scale_fill_discrete (name = 'race',
+                       labels = c ('White', 'Black', 'Asian', 'Hispanic', 'Native American'))
+
+```
+
+
+
+```{r}
+
+#data_12_19_Props 
+
+data_12_19racecounts <- data_12_19 %>%
+  group_by(year, race) %>%
+  summarize (freq = n(), .groups = 'drop')
+
+data_12_19raceProps <- data_12_19racecounts %>%
+  group_by(race) %>%
+  mutate (prop = freq / sum(freq)) %>%
+  ungroup()
+
+data_12_19raceProps
+
+```
+
+
+```{r include=FALSE}
+
+data_12_19_counts <- data_12_19 %>%
+  group_by(year, sex) %>%
+  summarize (freq = n(), .groups = 'drop')
+
+data_12_19_Props <- data_12_19_counts %>%
+  group_by(sex) %>%
+  mutate (prop = freq / sum(freq)) %>%
+  ungroup()
+
+```
+
+
+```{r}
+
+ggplot(data_12_19_Props, aes (x = year, y = prop, fill = 'sex')) +
+  geom_col()+
+  labs(x = '2012 and 2019', y = 'Proportion', title = "Gun Death by Gender - 2012 and 2019") +
+  scale_fill_discrete (name = 'sex',
+                       labels = c ('Female', 'Male'))
+
+```
+
+
+```{r}
+
+data_12_19_Props 
+
+```
+
+
+
+
+
